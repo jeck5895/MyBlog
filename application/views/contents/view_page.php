@@ -29,7 +29,7 @@
             <p style="text-indent: 14px;"><?php echo nl2br($query->content) ?></p>
             <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
             <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-            <span class="pull-right text-muted">127 likes - 3 comments</span>
+            <span class="pull-right text-muted">127 likes - <text id="total-comment"></text> comments</span>
           </div>
           <!-- /.box-body -->
           <div id="comment-section" class="box-footer box-comments">
@@ -40,9 +40,10 @@
           </div>
           <!-- /.box-footer -->
           <div class="box-footer">
-           <form action="" method="" id="post-comment">
+          <?php if($this->session->userdata('logged_in')){ ?>  
+             <form action="" method="" id="post-comment">
                 <img class="img-responsive img-circle img-sm" src="<?php echo base_url()."assets/uploads/".$this->session->userdata["logged_in"]["image"]?>" alt="Alt Text">
-                <!-- .img-push is used to add margin to elements next to floating images -->
+                  <!-- .img-push is used to add margin to elements next to floating images -->
                 <div class="img-push">
                   <input name="comment" type="text" class="form-control input-sm" placeholder="Press enter to post comment">
                   <input type="hidden" name="article-id" value="<?php echo $this->uri->segment(3)?>">
@@ -50,6 +51,7 @@
                   <input type="hidden" name="get-comment-url" value="<?php echo base_url('blog/get_comments');?>">
                 </div>
               </form>
+            <?php } ?>  
           </div>
           <!-- /.box-footer -->
         </div>

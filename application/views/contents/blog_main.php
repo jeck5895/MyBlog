@@ -67,15 +67,17 @@
             </div>
             <!-- /.box-footer -->
             <div class="box-footer">
+            <?php if($this->session->userdata('logged_in') === TRUE){ ?>  
               <form action="" method="" id="post-comment">
                 <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
-                <!-- .img-push is used to add margin to elements next to floating images -->
+                
                 <div class="img-push">
                   <input name="comment" type="text" class="form-control input-sm" placeholder="Press enter to post comment">
                   <input type="hidden" name="article-id" value="<?php echo $row->aid?>">
                   <input type="hidden" name="url" value="<?php echo base_url('blog/post_comment');?>">
                 </div>
               </form>
+           <?php }?>
             </div>
             <!-- /.box-footer -->
           </div>

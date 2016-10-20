@@ -54,23 +54,26 @@ var title = window.location.pathname.split("/");
   var base_url =  $("input[name = get-comment-url]").val();
    $.ajax({
     type: "post",
-    url: base_url,
+    url: pathUrl + "/blog/get_comments",
     dataType: "json",
     data:{
       aid: aid
     },
     success:function(data){
+      $("#total-comment").text(data.length);
       $("#comment-section").html("");
       $.each(data, function(index, item){
         $("#comment-section").append("<div class='box-comment'>");
-        $("#comment-section").append("<img class='img-circle img-sm' src='"+pathUrl+"/assets/uploads/"+item.image+"' alt='User Image'>");
+        $("#comment-section").append("<img class='img-circle img-sm margin-r-5' src='"+pathUrl+"/assets/uploads/"+item.image+"' alt='User Image'>");
         $("#comment-section").append("<div class='comment-text' id='comment-text'>");
-        $("#comment-section").append("<span class='username' id='username'> "+item.firstname +" "+ item.lastname);
+        $("#comment-section").append("<span class='username' id='username'> ");
+        $("#comment-section").append(item.firstname +" "+ item.lastname)
         $("#comment-section").append("<span class='text-muted pull-right' id='date'>"+moment(item.date,"YYYYMMDD h:mm:ss a").fromNow()+"</span>");
         $("#comment-section").append("</span>")
-        $("#comment-section").append("<div>"+item.comment+"</div>");
+        $("#comment-section").append("<p>"+item.comment+"</p>");
         $("#comment-section").append("</div");
         $("#comment-section").append("</div");
+
       });
 
     },
@@ -80,6 +83,22 @@ var title = window.location.pathname.split("/");
 
   });
 }
+function getTotalComment(){
+  
+   $.ajax({
+      type: "post",
+      url: pathUrl + "/blog/get_comments",
+      dataType: "json",
+      data:{
+        aid: aid
+      },
+      success:function(data){
+        $("#total-comment").text(data.length);
+      } 
+    });  
+}
+
+  getTotalComment();
   getComments();
 	load_profile_image();
 
@@ -98,18 +117,9 @@ $("#post-comment").submit(function(e){
       aid: aid
     },
     success: function(data){
-      $("#comment-section").html("");
-      $.each(data, function(index, item){
-        $("#comment-section").append("<div class='box-comment'>");
-        $("#comment-section").append("<img class='img-circle img-sm' src='../dist/img/user3-128x128.jpg' alt='User Image'>");
-        $("#comment-section").append("<div class='comment-text' id='comment-text'>");
-        $("#comment-section").append("<span class='username' id='username'>Juan");
-        $("#comment-section").append("<span class='text-muted pull-right' id='date'>8:03 PM Today</span>");
-        $("#comment-section").append("</span>")
-         $("#comment-section").append("<div>"+item.comment+"</div>");
-        $("#comment-section").append("</div");
-        $("#comment-section").append("</div");
-      });
+     
+      $("input[name=comment]").val("");
+      getComments();
     },
     error: function(){
       console.log("error");

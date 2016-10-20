@@ -305,7 +305,7 @@
 					"comment" => $data->comment,
 					"date" => $data->date,
 					"firstname" => $data->firstname,
-					"lastname" => $data->firstname,
+					"lastname" => $data->lastname,
 					"image" => $data->image
 					);
 				
