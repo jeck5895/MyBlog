@@ -185,7 +185,7 @@
 				foreach ($results as $result) {
 					$session = array('id'=>$result->id,
 									'email'=>$result->email,
-									'password' => $this->encrypt->encode($result->password),
+									'image' =>$result->image,
 						);
 				}
 

@@ -182,7 +182,7 @@
 
 		public function load_comment($aid){
 
-			$query = $this->db->select("comments.cid AS cid,comments.comment AS comment, accounts.firstname AS firstname, accounts.lastname AS lastname")
+			$query = $this->db->select("comments.cid AS cid,comments.comment AS comment, comments.date AS date, accounts.firstname AS firstname, accounts.lastname AS lastname, accounts.image AS image")
 							->from('comments')
 							->join('accounts','accounts.id = comments.uid')
 							->join('articles','articles.aid = comments.aid')

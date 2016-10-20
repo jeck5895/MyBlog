@@ -1,6 +1,11 @@
 $(document).ready(function(){
-
+var temp_aid = window.location.pathname.split('/')
+var aid = temp_aid[4];
 var url2 = window.location.href; 
+
+var path = window.location.pathname;
+var seg = path.split('/');
+var pathUrl = window.location.protocol + "//" + window.location.host + "/" + seg[1];
  
 $('ul a[href="'+ url2 +'"]').parent().addClass('active');
 	console.log(url2);
@@ -41,8 +46,41 @@ var title = window.location.pathname.split("/");
 			$("h3").html(item.firstname + " " + item.lastname);
 			$("p").text(item.email);
 		});
-		console.log(image);
+		
 	}
+
+  function getComments(){
+
+  var base_url =  $("input[name = get-comment-url]").val();
+   $.ajax({
+    type: "post",
+    url: base_url,
+    dataType: "json",
+    data:{
+      aid: aid
+    },
+    success:function(data){
+      $("#comment-section").html("");
+      $.each(data, function(index, item){
+        $("#comment-section").append("<div class='box-comment'>");
+        $("#comment-section").append("<img class='img-circle img-sm' src='"+pathUrl+"/assets/uploads/"+item.image+"' alt='User Image'>");
+        $("#comment-section").append("<div class='comment-text' id='comment-text'>");
+        $("#comment-section").append("<span class='username' id='username'> "+item.firstname +" "+ item.lastname);
+        $("#comment-section").append("<span class='text-muted pull-right' id='date'>"+moment(item.date,"YYYYMMDD h:mm:ss a").fromNow()+"</span>");
+        $("#comment-section").append("</span>")
+        $("#comment-section").append("<div>"+item.comment+"</div>");
+        $("#comment-section").append("</div");
+        $("#comment-section").append("</div");
+      });
+
+    },
+    error: function(){
+      console.log("error");
+    }
+
+  });
+}
+  getComments();
 	load_profile_image();
 
 $("#post-comment").submit(function(e){
@@ -78,9 +116,5 @@ $("#post-comment").submit(function(e){
     } 
   });
 });
-
-function loadcomments(){
-
-}
 
 });

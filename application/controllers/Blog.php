@@ -290,7 +290,28 @@
 
 			echo json_encode($result);	
 			
+		}
 
+		public function get_comments( )
+		{
+			$aid = $this->input->post('aid');
+			
+			$dataset = $this->blog_model->load_comment($aid);
+
+			$result = array();
+			foreach ($dataset as $data) {
+				$result[] = array(
+					"cid" => $data->cid,
+					"comment" => $data->comment,
+					"date" => $data->date,
+					"firstname" => $data->firstname,
+					"lastname" => $data->firstname,
+					"image" => $data->image
+					);
+				
+			}
+
+			echo json_encode($result);	
 		}
 	}
 ?>
