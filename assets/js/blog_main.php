@@ -3,14 +3,14 @@
   </section>
   <section class="content">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-8">  
         <?php foreach($query as $row){?>
         <div class="box box-widget">
             <div class="box-header with-border">
               <div class="user-block">
                 <img class="img-circle" src="<?php echo base_url()."assets/uploads/".$row->image?>" alt="User Image">
                 <span class="username"><a href="<?php echo base_url()."blog/other_profile/".$row->author?>"> <?php echo $row->firstname ." ".$row->lastname?>   </a></span>
-                <span class="description">Shared publicly - <?php echo date('h:m A - F j Y ', strtotime($row->date_published)) ?></span>
+                <span class="description">Shared publicly - 7:30 PM - <?php echo date('F j Y ', strtotime($row->date_published)) ?></span>
               </div>
               <!-- /.user-block -->
               <div class="box-tools">
@@ -34,7 +34,7 @@
             <!-- /.box-body -->
             <div id="comment-section" class="box-footer box-comments">
               <!-- <div class="box-comment" id="box-comment">
-
+               
                 <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="User Image">
 
                 <div class="comment-text" id="comment-text">
@@ -46,11 +46,11 @@
                   by the readable content of a page when looking at its layout.
                   </div>
                 </div>
-
+               
               </div>
-
+              
               <div class="box-comment">
-
+                
                 <img class="img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="User Image">
 
                 <div class="comment-text">
@@ -61,16 +61,16 @@
                   It is a long established fact that a reader will be distracted
                   by the readable content of a page when looking at its layout.
                 </div>
-
+                
               </div> -->
-
+              
             </div>
             <!-- /.box-footer -->
             <div class="box-footer">
-            <?php if($this->session->userdata('logged_in') === TRUE){ ?>
+            <?php if($this->session->userdata('logged_in') === TRUE){ ?>  
               <form action="" method="" id="post-comment">
                 <img class="img-responsive img-circle img-sm" src="../dist/img/user4-128x128.jpg" alt="Alt Text">
-
+                
                 <div class="img-push">
                   <input name="comment" type="text" class="form-control input-sm" placeholder="Press enter to post comment">
                   <input type="hidden" name="article-id" value="<?php echo $row->aid?>">
@@ -82,21 +82,21 @@
             <!-- /.box-footer -->
           </div>
           <?php } ?>
-
+        
         </div>
-
+        
         <div class="col-lg-4">
           <div class="box">
             <div class="box-header with-border">
-              <h4 class="box-title">Advertisements</h4>
+              <h4 class="box-title">Advertisements</h4>  
             </div>
             <div class="box-body">
               <img style="margin: auto;" class="" width="300" height="" src="http://materializecss.com/images/sample-1.jpg">
               <hr>
               <p>Some paragraphs here</p>
             </div>
-          </div>
-        </div>
-    </div>
+          </div> 
+        </div> 
+    </div> 
   </section>
-</div>
+</div> 

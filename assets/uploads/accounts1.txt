@@ -1,0 +1,9 @@
+web hosting account:
+Client ID: 2216259
+email: jeck.labasan@gmail.com
+password: gmail password
+database_password:qwertyuiop123456789
+
+CSIC email account:
+email: jerick.labasan@csic.ph
+password: jericklabasan@092016

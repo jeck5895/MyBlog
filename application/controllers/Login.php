@@ -4,14 +4,22 @@
 	class Login extends CI_Controller{
 
 		function __construct(){
-			
+
 			parent::__construct();
 			$this->load->model('blog_model','',TRUE);
 			$this->load->driver('session');
-			
+
 		}
 
-		public function load_page($page){
+		public function load_page($page,$data){
+			$this->load->view('templates/header');
+			$this->load->view('templates/navigation');
+			$this->load->view('modal/'.$page,$data);
+			$this->load->view('templates/footer');
+		}
+
+		public function load_login($page)
+		{
 			$this->load->view('templates/header');
 			$this->load->view('templates/navigation');
 			$this->load->view('modal/'.$page);
@@ -19,15 +27,15 @@
 		}
 
 		public function index(){
-			
-			$this->load_page('modal_login');
-			
-			
+
+			$this->load_login('modal_login');
+
+
 		}
 
 		public function register_page(){
-			
-			$this->load_page('register');
+			$data['recaptcha_html'] = $this->recaptcha->recaptcha_get_html();
+			$this->load_page('register',$data);
 		}
 
 		public function register(){
@@ -43,7 +51,7 @@
 				$this->load_page('register');
 			}
 			else{
-				 
+
 				$firstname = $this->security->xss_clean($this->input->post('firstname'));
 				$lastname = $this->security->xss_clean($this->input->post('lastname'));
 				$email = $this->security->xss_clean($this->input->post('email'));
@@ -65,17 +73,17 @@
 		public function load_profile_image(){
 
 			header('Content-type: application/json');
-			
+
 			$userid = $this->session->userdata['logged_in']['id'];
 			$dataset = $this->blog_model->load_profile_image($userid);
 			$result = array();
-			
+
 			foreach ($dataset as $data) {
 				$result[] = array(
 					"image" => $data->image,
 					"firstname" => $data->firstname,
 					"lastname" =>$data->lastname
-					); 
+					);
 			}
 
 			echo json_encode($result);
@@ -83,10 +91,10 @@
 
 		public function profile_page(){
 
-			// if($this->session->userdata('logged_in')){	
+			// if($this->session->userdata('logged_in')){
 
 				$this->load_page('profile');
-			
+
 			// }else{
 			// 	redirect(base_url('login/'));
 			// }
@@ -94,42 +102,50 @@
 		}
 
 		public function uploadImage(){
-			
+
 			if($this->session->userdata('logged_in')){
-				$config['upload_path']   = './assets/uploads/'; 
-		        $config['allowed_types'] = '*'; 
-		        $config['max_size']      = 10000; 
-		        $config['max_width']     = 1024; 
-		        $config['max_height']    = 768;  
+				$config['upload_path']   = './assets/uploads/';
+		        $config['allowed_types'] = '*';
+		        $config['max_size']      = 10000;
+		        $config['max_width']     = 1024;
+		        $config['max_height']    = 768;
 		        $this->load->library('upload', $config);
 
 		        if(!$this->upload->do_upload()){
 
-		        	$error = array('error' => $this->upload->display_errors());    
+		        	$error = array('error' => $this->upload->display_errors());
 			    	var_dump($error);
-		       
+
 		        }else{
 
-		        	$data = array('upload_data' => $this->upload->data()); 
-		        	$filename = $_FILES['userfile']['name'];
-		        	$userid = $this->session->userdata['logged_in']['id'];
-		        	$this->blog_model->upload_image($userid,$filename);
-		        	redirect(base_url('login/profile_page'));
+		        	$data = array('upload_data' => $this->upload->data());
+		        	$filename = $_FILES['userfile']['name']; //use in_array() to validate file extensions
+							$temp_ext = explode(".",$filename);
+							$allowed_ext = array('jpg','jpeg','gif','png');
+							$file_extension = strtolower($temp_ext[1]);
+							if(in_array($file_extension, $allowed_ext)){
+			        	$userid = $this->session->userdata['logged_in']['id'];
+			        	$this->blog_model->upload_image($userid,$filename);
+			        	redirect(base_url('login/profile_page'));
+							}
+							else{
+								echo "The file type is not allowed!";
+							}
 		        }
 		    }
 		    else{
 		    	redirect(base_url('login/'));
-		    }    
+		    }
 		}
 
 		public function auth(){
 
 
 			$this->form_validation->set_rules('email','Email','required|is_email|callback_check_email|xss_clean');
-			$this->form_validation->set_rules('password','Password','trim|required|callback_check_password_length'); 
+			$this->form_validation->set_rules('password','Password','trim|required|callback_check_password_length');
 
 			if($this->form_validation->run() == FALSE){
-				
+
 				$this->load->view('templates/header');
 				$this->load->view('templates/navigation');
 				$this->load->view('modal/modal_login');
@@ -146,11 +162,11 @@
 		}
 
 		function compare_passwords(){
-			
+
 			$password = $this->input->post('password');
 			$confirm_password = $this->input->post('confirm_password');
 			if(strcmp($password, $confirm_password)==0){
-				
+
 				return TRUE;
 			}
 			else{
@@ -181,7 +197,7 @@
 			$results = $this->blog_model->getEmail($email,$password);
 
 			if($results){
-				
+
 				foreach ($results as $result) {
 					$session = array('id'=>$result->id,
 									'email'=>$result->email,
@@ -194,12 +210,12 @@
 				//$this->session->unset_userdata('logged_in');
 				return TRUE;
 
-			}	
+			}
 			else{
 				$this->form_validation->set_message('check_email','Account does not exists');
 				return FALSE;
 			}
-			
+
 		}
 
 		function check_user($password){
@@ -208,7 +224,7 @@
 			$results = $this->blog_model->get_user($email,$password);
 
 			if($results){
-				
+
 				foreach ($results as $result) {
 					$session = array('id'=>$result->id,
 									'email'=>$result->email,
@@ -232,7 +248,7 @@
 			redirect(base_url());
 		}
 
-			
+
 	}
 
 ?>

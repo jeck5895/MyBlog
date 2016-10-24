@@ -1,6 +1,6 @@
 <div class="container">
 	<section class="content-header">
-		
+
 	</section>
 	<section class="content">
 		<div class="row">
@@ -14,11 +14,11 @@
 							<form method="POST" style="margin-left:38%;" class="form-inline" action="<?php echo base_url('login/uploadImage');?>" enctype="multipart/form-data">
 								<div class="form-group">
 									<!-- <input id="profile-pic" type="file" class="filestyle" data-buttonText="Change Profile" data-iconName="glyphicon glyphicon-inbox" data-input="false" name="userfile" required/> -->
-									<input type="file" class="filestyle" data-input="false" name="userfile" data-buttonText="Change Profile">
+									<input type="file" class="filestyle"  accept="image/jpg,image/png,image/jpeg,image/gif" data-input="false" name="userfile" data-buttonText="Change Profile">
 								</div>
-								<div class="form-group">	
+								<div class="form-group">
 								 	<button class="btn btn-primary" type="submit" name="action">Submit</button>
-								</div>	
+								</div>
 							</form>
 							<?php }?>
 						<hr>
@@ -31,18 +31,6 @@ Aenean volutpat feugiat urna, eu viverra odio vulputate a. Nullam erat arcu, con
 					</div>
 				</div>
 			</div>
-		</div>	
+		</div>
 	</section>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-

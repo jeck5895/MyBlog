@@ -6,7 +6,7 @@ var url2 = window.location.href;
 var path = window.location.pathname;
 var seg = path.split('/');
 var pathUrl = window.location.protocol + "//" + window.location.host + "/" + seg[1];
- 
+
 $('ul a[href="'+ url2 +'"]').parent().addClass('active');
 	console.log(url2);
 var title = window.location.pathname.split("/");
